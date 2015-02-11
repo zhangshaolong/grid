@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Grid组件Demo</title>
+    <style>
+        th, td {
+            border: 1px solid
+        }
+    </style>
+</head>
+<body>
+<table id="tbodyDemo2" class="grid" width="100%">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>部门</th>
+            <th>地区</th>
+            <th>性别</th>
+            <th>是否喜欢篮球</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script src="grid.js"></script>
+<script>
+    var grid = new Grid({
+        holder: 'tbodyDemo2',
+        bodyTemplate: '<td>@sequence</td><td merge="true" hook="abc"></td><td edit="region">{region}</td><td>@toType</td><td>喜欢：<input type="radio" name="like{id}" @isLike/>&nbsp;不喜欢：<input type="radio" name="like{id}" @isHate /></td>',
+        datasource: [
+            {id:8, region:'重庆', type:1, islike:1, depart: 'depart1'},
+            {id:20, region:'沈阳', type:1, islike:0, depart: 'depart2'},
+            {id:21, region:'哈尔滨', type:0, islike:0, depart: 'depart3'},
+            {id:22, region:'天津', type:0, islike:1, depart: 'depart4'},
+            {id:23, region:'青岛', type:0, islike:1, depart: 'depart5'},
+            {id:24, region:'安徽', type:1, islike:0, depart: 'depart6'},
+            {id:25, region:'四川', type:1, islike:0, depart: 'depart7'}
+        ]
+    });
+    grid.toType = function (model) {
+        return 'type' + model.type;
+    };
+    grid.hookAbc = function (node, model, index) {
+        var btn = document.createElement('input');
+        btn.type = 'button';
+        btn.value = 'aaa' + model.id;
+        node.appendChild(btn);
+    };
+    grid.isLike = function (model) {
+        if (model.islike == 1) return ' checked="checked" ';
+        return '';
+    };
+    grid.isHate = function (model) {
+        if (model.islike == 0) return ' checked="checked" ';
+        return '';
+    };
+    grid.render([
+        {id:8, region:'重庆', type:1, islike:1, depart: 'depart1'},
+        {id:20, region:'沈阳', type:1, islike:0, depart: 'depart2'},
+        {id:21, region:'哈尔滨', type:0, islike:0, depart: 'depart3'},
+        {id:22, region:'天津', type:0, islike:1, depart: 'depart4'},
+        {id:23, region:'青岛', type:0, islike:1, depart: 'depart5'},
+        {id:24, region:'安徽', type:1, islike:0, depart: 'depart6'},
+        {id:25, region:'四川', type:1, islike:0, depart: 'depart7'}
+    ]);
+</script>
+</body>
+</html>
